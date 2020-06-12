@@ -31,12 +31,20 @@ class Dot:
         self.vy = 0
 
     def tick(self):
-        rx = self.x - width / 2
-        ry = self.y - height / 2
-        self.x += self.vx
-        self.y += self.vy
-        self.vx = 0.0001 * (10 + rx + -ry ** 2)
-        self.vy = 0.0001 * (2 * ry - rx ** 2)
+        rx = self.x - pygame.mouse.get_pos()[0]
+        ry = self.y - pygame.mouse.get_pos()[1]
+
+        if not pygame.mouse.get_pressed()[0]:
+            self.x += self.vx
+            self.y += self.vy
+            self.vx = 0.0001 * (10 + rx + -ry ** 2)
+            self.vy = 0.0001 * (2 * ry - rx ** 2)
+        else:
+            self.vx = 0.1 * (self.x - pygame.mouse.get_pos()[0])
+            self.vy = 0.1 * (self.y - pygame.mouse.get_pos()[1])
+            self.x += self.vx
+            self.y += self.vy
+
         if math.sqrt(rx ** 2 + ry ** 2) > width * 2:
             self.x = random.randint(0, width)
             self.y = random.randint(0, height)
